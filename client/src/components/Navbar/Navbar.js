@@ -10,13 +10,16 @@ import {
   Link,
 } from "@material-ui/core";
 import useStyles from "./styles";
+import { useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   // Get (retrieve something) from localStorage
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  console.log(user);
 
   // get user data without refreshing the web
   useEffect(() => {
@@ -25,7 +28,13 @@ const Navbar = () => {
     // JWT
 
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, []);
+  }, [location]);
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    // navigate("/");
+    setUser(null);
+  };
 
   return (
     <AppBar position="static" color="default" className={classes.appBar}>
@@ -63,6 +72,7 @@ const Navbar = () => {
               variant="contained"
               className={classes.logout}
               color="secondary"
+              onClick={logout}
             >
               Logout
             </Button>

@@ -24,8 +24,9 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Navbar />
+
       <BrowserRouter>
+        <Navbar />
         <Container maxWidth="lg">
           <Routes>
             <Route path="/" exact element={<Home />} />
