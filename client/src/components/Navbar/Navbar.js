@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   AppBar,
@@ -14,7 +14,18 @@ import useStyles from "./styles";
 const Navbar = () => {
   const classes = useStyles();
 
-  const user = null;
+  // Get (retrieve something) from localStorage
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  console.log(user);
+
+  // get user data without refreshing the web
+  useEffect(() => {
+    const token = user?.token;
+
+    // JWT
+
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, []);
 
   return (
     <AppBar position="static" color="default" className={classes.appBar}>
@@ -46,7 +57,7 @@ const Navbar = () => {
               {user.result.name.charAt(0)}
             </Avatar>
             <Typography className={classes.userName} variant="h6">
-              user.result.name
+              {user.result.name}
             </Typography>
             <Button
               variant="contained"

@@ -8,14 +8,18 @@ import {
   Container,
   TextField,
 } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import { GoogleLogin } from "react-google-login";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
 import Icon from "./Icon";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   // const isSignup = true;
   const [isSignup, setisSignup] = useState(false);
@@ -30,6 +34,27 @@ const Auth = () => {
   const switchMode = () => {
     setisSignup((prevIsSignUp) => !prevIsSignUp);
     handleShowPassword(false);
+  };
+
+  const OAUTH_ID = process.env.REACT_APP_OAUTH_ID;
+
+  // function for google sign in
+  const googleSuccess = async (res) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+
+    try {
+      dispatch({ type: "AUTH", data: { result, token } });
+      // after successfully dispatch, go back to homepage
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const googleFailure = (error) => {
+    console.log(error);
+    console.log("Google Sign In was failed. Try Again Later");
   };
 
   return (
@@ -80,7 +105,7 @@ const Auth = () => {
             )}
           </Grid>
           <GoogleLogin
-            clientId="GOOGLE ID"
+            clientId={OAUTH_ID}
             render={(renderProps) => (
               <Button
                 className={classes.googleButton}
@@ -90,10 +115,14 @@ const Auth = () => {
                 disabled={renderProps.disabled}
                 startIcon={<Icon />}
                 variant="contained"
+                style={{ marginTop: "20px" }}
               >
                 Sign In With Google
               </Button>
             )}
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+            cookiePolicy="single_host_origin"
           />
           <Button
             type="submit"
