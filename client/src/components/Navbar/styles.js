@@ -7,6 +7,7 @@ export default makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
     padding: "10px 50px",
   },
   heading: {

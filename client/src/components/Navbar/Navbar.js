@@ -17,6 +17,7 @@ const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Get (retrieve something) from localStorage
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
@@ -32,7 +33,7 @@ const Navbar = () => {
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
-    // navigate("/");
+    navigate("/");
     setUser(null);
   };
 
