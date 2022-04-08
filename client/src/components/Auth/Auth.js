@@ -15,6 +15,15 @@ import useStyles from "./styles";
 import Input from "./Input";
 import Icon from "./Icon";
 import { useNavigate } from "react-router-dom";
+import { signin, signup } from "../../actions/auth";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -23,13 +32,29 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   // const isSignup = true;
   const [isSignup, setisSignup] = useState(false);
+  const [formData, setformData] = useState(initialState);
 
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = () => {};
+    if (isSignup) {
+      // sign up logic
+      // dispatch signup action and passing the formData
+      // and navigate (so we can navigate, when something happen)
+      dispatch(signup(formData, navigate));
+    } else {
+      // sign in logic
+      // dispatch signin action and passing the formData
+      dispatch(signin(formData, navigate));
+    }
+  };
+
+  const handleChange = (e) => {
+    setformData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const switchMode = () => {
     setisSignup((prevIsSignUp) => !prevIsSignUp);
