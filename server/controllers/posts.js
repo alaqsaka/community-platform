@@ -61,6 +61,9 @@ export const likePost = async (req, res) => {
   // getting id from params
   const { id } = req.params;
 
+  // check if the user is logged in (authenticated)
+  if (!req.userId) return res.json({ message: "Unauthenticated" });
+
   // check if the post id is available in the database
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("Post unavailable");
@@ -68,11 +71,20 @@ export const likePost = async (req, res) => {
   // finding a post by id from the database
   const post = await PostMessage.findById(id);
 
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    id,
-    { likeCount: post.likeCount + 1 },
-    { new: true }
-  );
+  // check if the user is already liked the post
+  const index = post.likes.findIndex((id) => id === String(req.userId));
+
+  if (index === -1) {
+    // user like the post
+    post.likes.push(req.userId);
+  } else {
+    // user dislike a post
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+    new: true,
+  });
 
   res.json(updatedPost);
 };
