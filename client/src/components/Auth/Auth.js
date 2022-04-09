@@ -58,7 +58,7 @@ const Auth = () => {
 
   const switchMode = () => {
     setisSignup((prevIsSignUp) => !prevIsSignUp);
-    handleShowPassword(false);
+    setShowPassword(false);
   };
 
   const OAUTH_ID = process.env.REACT_APP_OAUTH_ID;
