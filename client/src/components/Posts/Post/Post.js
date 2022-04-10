@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
@@ -17,9 +18,36 @@ import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 
 const Post = ({ post, setCurrentId }) => {
-  console.log(post);
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  const Likes = () => {
+    if (post.likes.length > 0) {
+      return post.likes.find(
+        (like) => like === (user?.result?.googleId || user?.result?._id)
+      ) ? (
+        <>
+          <ThumbUpAltIcon fontSize="small" />
+          &nbsp;
+          {post.likes.length > 2
+            ? `You and ${post.likes.length - 1} others`
+            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+        </>
+      ) : (
+        <>
+          <ThumbUpAltOutlined fontSize="small" />
+          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Like"}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <ThumbUpAltOutlined fontSize="small" />
+      </>
+    );
+  };
 
   return (
     <Card className={classes.card}>
@@ -67,10 +95,9 @@ const Post = ({ post, setCurrentId }) => {
           size="small"
           color="default"
           onClick={() => dispatch(likePost(post._id))}
+          disabled={!user?.result}
         >
-          <ThumbUpAltIcon fontSize="small" />
-          &nbsp; Like &nbsp;
-          {post.likeCount}
+          <Likes />
         </Button>
         <Button
           size="small"
