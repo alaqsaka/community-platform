@@ -45,7 +45,12 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" color="default" className={classes.appBar}>
+    <AppBar
+      position="static"
+      color="default"
+      className={classes.appBar}
+      style={{ background: "transparent", boxShadow: "none" }}
+    >
       <div className={classes.brandContainer}>
         <Container maxWidth="xl">
           <Box p={2}>
@@ -73,7 +78,7 @@ const Navbar = () => {
             >
               {user.result.name.charAt(0)}
             </Avatar>
-            <Typography className={classes.userName} variant="h6">
+            <Typography className={classes.userName}>
               {user.result.name}
             </Typography>
             <Button
@@ -87,7 +92,12 @@ const Navbar = () => {
           </div>
         ) : (
           // need component, to
-          <Button variant="contained" color="primary" href="/auth">
+          <Button
+            variant="contained"
+            color="primary"
+            href="/auth"
+            className={classes.signin}
+          >
             Sign In
           </Button>
         )}

@@ -15,9 +15,12 @@ const App = () => {
   const theme = createTheme({
     palette: {
       type: "dark",
+      background: {
+        default: "#1E1F21",
+      },
     },
     typography: {
-      fontFamily: "Nunito Sans",
+      fontFamily: "Poppins",
     },
   });
 

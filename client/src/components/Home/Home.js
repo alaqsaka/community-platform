@@ -26,6 +26,7 @@ const Home = () => {
   return (
     <Grow in>
       <Container>
+        <h1>Home</h1>
         <Grid
           container
           className={classes.mainContainer}

@@ -81,6 +81,7 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Title"
           fullWidth
           value={postData.title}
+          style={{ width: "100%" }}
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
         <TextField
@@ -123,8 +124,7 @@ const Form = ({ currentId, setCurrentId }) => {
           Submit
         </Button>
         <Button
-          className={classes.buttonSubmit}
-          variant="contained"
+          className={classes.clear}
           color="secondary"
           size="small"
           onClick={clear}
