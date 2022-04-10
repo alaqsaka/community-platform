@@ -14,7 +14,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
 import Icon from "./Icon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
 
 const initialState = {
@@ -33,6 +33,10 @@ const Auth = () => {
   // const isSignup = true;
   const [isSignup, setisSignup] = useState(false);
   const [formData, setformData] = useState(initialState);
+  const user = JSON.parse(localStorage.getItem("profile"));
+  if (user?.result) {
+    return <Navigate to="/" />;
+  }
 
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
