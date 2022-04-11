@@ -12,7 +12,7 @@ import {
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import useStyles from "./styles";
-import { getPosts } from "../../actions/posts";
+import { getPosts, getPostsBySearch } from "../../actions/posts";
 import Paginate from "../Pagination";
 import { useNavigate, useLocation } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
@@ -48,6 +48,7 @@ const Home = () => {
   const searchPost = () => {
     if (search.trim()) {
       // dispatch -> fetch search post
+      dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
     } else {
       navigate("/");
     }
