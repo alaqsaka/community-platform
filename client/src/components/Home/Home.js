@@ -46,9 +46,12 @@ const Home = () => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
 
   const searchPost = () => {
-    if (search.trim()) {
+    if (search.trim() || tags) {
       // dispatch -> fetch search post
       dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
+      navigate(
+        `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`
+      );
     } else {
       navigate("/");
     }
