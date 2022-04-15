@@ -62,7 +62,7 @@ const Navbar = () => {
                 sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
                 className={classes.title}
               >
-                Community Platform
+                Complat
               </Typography>
             </Link>
           </Box>
