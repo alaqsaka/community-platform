@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useNavigate } from 'react-router-dom';
 import useStyles from './styles'
-import { getPost } from '../../actions/posts';
+import { getPost, getPostsBySearch } from '../../actions/posts';
 
 const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
@@ -19,10 +19,18 @@ const PostDetails = () => {
       dispatch(getPost(id));
   }, [id]);
     
+  useEffect(() => {
+    if(post){
+      dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
+    }
+  }, [post])
+  
   console.log("post ", post);
   console.log("posts ", + posts);
 
   if(!post) return null;
+  
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
 
   console.log("isloading ", isLoading);
 
@@ -53,6 +61,21 @@ const PostDetails = () => {
         <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
       </div>
     </div>
+    {recommendedPosts.length && (
+      <div className={classes.section}>
+        <Typography gutterBottom variant='h5'>
+          For You:
+          <Divider />
+          <div className={classes.recommendedPosts}>
+            {recommendedPosts.map(({ title, message, name, likes, selectedFile, _id }) => (
+              <div>
+                {title}
+              </div>
+            ))}
+          </div>
+        </Typography>
+      </div>
+    )}
     </Paper>
   )
 }
